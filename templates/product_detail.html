@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Details - E-Commerce</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css"
+    />
+    <link rel="stylesheet" href="/static/css/style.css" />
+    <style>
+      .product-detail-card {
+        border: none;
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: var(--card-shadow);
+      }
+      .product-gallery {
+        position: relative;
+        background: #f8f9fa;
+        border-radius: 24px;
+        padding: 1rem;
+      }
+      .product-img {
+        width: 100%;
+        height: 400px;
+        object-fit: contain;
+        border-radius: 16px;
+      }
+      .product-info {
+        padding: 2rem;
+      }
+      .price-tag {
+        font-size: 2rem;
+        color: var(--primary-color);
+        font-weight: 600;
+      }
+      .quantity-input {
+        max-width: 100px;
+        text-align: center;
+        border-radius: 8px;
+        margin: 0 10px;
+      }
+      .stock-badge {
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        background: #e9ecef;
+      }
+      .stock-badge.in-stock {
+        background: #d4edda;
+        color: #155724;
+      }
+      .stock-badge.low-stock {
+        background: #fff3cd;
+        color: #856404;
+      }
+      .related-products {
+        margin-top: 3rem;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <div class="container">
+        <a class="navbar-brand" href="/"
+          ><i class="bi bi-shop me-2"></i>E-Commerce</a
+        >
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/login/"
+                ><i class="bi bi-person me-1"></i>Login</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/register/"
+                ><i class="bi bi-person-plus me-1"></i>Register</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/cart/"
+                ><i class="bi bi-cart me-1"></i>Cart</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container mt-5">
+      <div class="mb-4">
+        <a href="/" class="btn btn-outline-primary">
+          <i class="bi bi-arrow-left me-2"></i>Back to Products
+        </a>
+      </div>
+
+      <div id="product-detail"></div>
+
+      <div id="loading" class="text-center py-5">
+        <div class="loading mx-auto"></div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      function getProductId() {
+        const params = new URLSearchParams(window.location.search);
+        return params.get("id");
+      }
+
+      async function loadProduct() {
+        const productId = getProductId();
+        if (!productId) {
+          document.getElementById("product-detail").innerHTML = `
+            <div class="alert alert-danger">
+                <i class="bi bi-exclamation-triangle me-2"></i>No product selected
+            </div>`;
+          document.getElementById("loading").style.display = "none";
+          return;
+        }
+
+        try {
+          const res = await fetch(`/api/products/${productId}/`);
+          const product = await res.json();
+
+          document.getElementById("product-detail").innerHTML = `
+            <div class="product-detail-card">
+                <div class="row g-0">
+                    <div class="col-lg-6">
+                        <div class="product-gallery">
+                            <img src="${
+                              product.image ||
+                              "https://via.placeholder.com/600x400"
+                            }" 
+                                 class="product-img" alt="${product.name}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="product-info">
+                            <div class="mb-4">
+                                ${
+                                  product.category
+                                    ? `<span class="badge bg-primary mb-2">${product.category.name}</span>`
+                                    : ""
+                                }
+                                <h1 class="mb-3">${product.name}</h1>
+                                <p class="text-muted">${product.description}</p>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <span class="price-tag mb-3">$${
+                                  product.price
+                                }</span>
+                                <div class="mt-2">
+                                    <span class="stock-badge ${
+                                      product.stock > 5
+                                        ? "in-stock"
+                                        : "low-stock"
+                                    }">
+                                        <i class="bi bi-box me-1"></i>
+                                        ${
+                                          product.stock > 0
+                                            ? `${product.stock} in stock`
+                                            : "Out of stock"
+                                        }
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <form onsubmit="event.preventDefault(); addToCart(${
+                              product.id
+                            })" class="mb-4">
+                                <div class="d-flex align-items-center mb-3">
+                                    <label class="me-3">Quantity:</label>
+                                    <input type="number" id="quantity" class="form-control quantity-input" 
+                                           value="1" min="1" max="${
+                                             product.stock
+                                           }">
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-lg w-100 ${
+                                  product.stock === 0 ? "disabled" : ""
+                                }">
+                                    <i class="bi bi-cart-plus me-2"></i>Add to Cart
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+        } catch (error) {
+          document.getElementById("product-detail").innerHTML = `
+            <div class="alert alert-danger">
+                <i class="bi bi-exclamation-triangle me-2"></i>Failed to load product details
+            </div>`;
+        } finally {
+          document.getElementById("loading").style.display = "none";
+        }
+      }
+
+      async function addToCart(productId) {
+        const token = localStorage.getItem("access");
+        if (!token) {
+          alert("Please login to add items to your cart.");
+          window.location.href = "/login/";
+          return;
+        }
+
+        const quantity = parseInt(document.getElementById("quantity").value);
+        try {
+          const res = await fetch("/api/cart/", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + token,
+            },
+            body: JSON.stringify({ product_id: productId, quantity }),
+          });
+
+          if (!res.ok) throw new Error("Failed to add to cart");
+
+          const toast = document.createElement("div");
+          toast.className = "position-fixed bottom-0 end-0 p-3";
+          toast.style.zIndex = "11";
+          toast.innerHTML = `
+            <div class="toast show" role="alert">
+                <div class="toast-header">
+                    <i class="bi bi-cart-check me-2"></i>
+                    <strong class="me-auto">Success</strong>
+                    <button type="button" class="btn-close" onclick="this.closest('.toast').remove()"></button>
+                </div>
+                <div class="toast-body">
+                    Product added to cart!
+                </div>
+            </div>
+        `;
+          document.body.appendChild(toast);
+          setTimeout(() => toast.remove(), 3000);
+        } catch (error) {
+          alert(error.message);
+        }
+      }
+
+      loadProduct();
+    </script>
+  </body>
+</html>

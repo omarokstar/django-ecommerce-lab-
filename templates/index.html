@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nexus | Premium E-Commerce Store</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+    />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <style>
+      :root {
+        --primary-color: #2563eb;
+        --primary-hover: #1d4ed8;
+        --secondary-color: #7c3aed;
+        --dark-color: #1e293b;
+        --light-color: #f8fafc;
+        --gray-color: #94a3b8;
+        --success-color: #10b981;
+        --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        --transition: all 0.3s ease;
+      }
+      
+      body {
+        font-family: 'Poppins', sans-serif;
+        background-color: #f5f7fa;
+        color: var(--dark-color);
+      }
+      
+      /* Navigation */
+      .navbar {
+        background-color: white;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        padding: 1rem 0;
+      }
+      
+      .navbar-brand {
+        font-weight: 700;
+        font-size: 1.5rem;
+        color: var(--dark-color);
+      }
+      
+      .navbar-brand i {
+        color: var(--primary-color);
+      }
+      
+      .nav-link {
+        font-weight: 500;
+        color: var(--dark-color);
+        margin: 0 0.5rem;
+        transition: var(--transition);
+      }
+      
+      .nav-link:hover {
+        color: var(--primary-color);
+      }
+      
+      .nav-link i {
+        margin-right: 0.3rem;
+      }
+      
+      /* Hero Section */
+      .hero-section {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        padding: 5rem 0 4rem;
+        color: white;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .hero-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url('https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?q=80&w=1000') no-repeat center center;
+        background-size: cover;
+        opacity: 0.1;
+      }
+      
+      .hero-content {
+        position: relative;
+        z-index: 2;
+      }
+      
+      .hero-title {
+        font-weight: 700;
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+      }
+      
+      .hero-subtitle {
+        font-weight: 400;
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      
+      .search-box {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+      
+      .search-input {
+        border: none;
+        border-radius: 50px;
+        padding: 0.8rem 1.5rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+      
+      .search-btn {
+        position: absolute;
+        right: 5px;
+        top: 5px;
+        background: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 50px;
+        padding: 0.5rem 1.2rem;
+        transition: var(--transition);
+      }
+      
+      .search-btn:hover {
+        background: var(--primary-hover);
+      }
+      
+      /* Main Content */
+      .main-container {
+        padding: 3rem 0;
+      }
+      
+      .section-title {
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        position: relative;
+        display: inline-block;
+      }
+      
+      .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: -8px;
+        left: 0;
+        width: 50px;
+        height: 3px;
+        background: var(--primary-color);
+      }
+      
+      /* Category Filter */
+      .category-filter {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 12px;
+        box-shadow: var(--card-shadow);
+        margin-bottom: 2.5rem;
+      }
+      
+      .filter-btn {
+        border-radius: 50px;
+        padding: 0.5rem 1.2rem;
+        margin: 0.3rem;
+        border: 1px solid #e2e8f0;
+        background: white;
+        color: var(--dark-color);
+        font-weight: 500;
+        transition: var(--transition);
+      }
+      
+      .filter-btn.active,
+      .filter-btn:hover {
+        background: var(--primary-color);
+        color: white;
+        border-color: var(--primary-color);
+      }
+      
+      /* Product Grid */
+      .product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 2rem;
+      }
+      
+      .product-card {
+        background: white;
+        border: none;
+        border-radius: 12px;
+        overflow: hidden;
+        transition: var(--transition);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+      
+      .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--card-shadow);
+      }
+      
+      .product-img-container {
+        height: 200px;
+        overflow: hidden;
+        position: relative;
+      }
+      
+      .product-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+      }
+      
+      .product-card:hover .product-img {
+        transform: scale(1.05);
+      }
+      
+      .product-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: var(--primary-color);
+        color: white;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        font-weight: 500;
+      }
+      
+      .product-body {
+        padding: 1.5rem;
+      }
+      
+      .product-title {
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      
+      .product-description {
+        color: var(--gray-color);
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      
+      .product-price {
+        color: var(--primary-color);
+        font-size: 1.25rem;
+        font-weight: 700;
+      }
+      
+      .product-actions {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 1.5rem;
+      }
+      
+      .btn-view {
+        background: white;
+        color: var(--primary-color);
+        border: 1px solid var(--primary-color);
+        border-radius: 6px;
+        padding: 0.5rem 1rem;
+        font-weight: 500;
+        transition: var(--transition);
+      }
+      
+      .btn-view:hover {
+        background: var(--primary-color);
+        color: white;
+      }
+      
+      .btn-add {
+        background: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        padding: 0.5rem 1rem;
+        font-weight: 500;
+        transition: var(--transition);
+      }
+      
+      .btn-add:hover {
+        background: var(--primary-hover);
+      }
+      
+      /* Loading Animation */
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      
+      .loading {
+        border: 4px solid rgba(0, 0, 0, 0.1);
+        border-radius: 50%;
+        border-top: 4px solid var(--primary-color);
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+      }
+      
+      /* Toast Notification */
+      .toast-container {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1100;
+      }
+      
+      .custom-toast {
+        background: white;
+        border-left: 4px solid var(--success-color);
+        box-shadow: var(--card-shadow);
+      }
+      
+      /* Footer */
+      .footer {
+        background: var(--dark-color);
+        color: white;
+        padding: 3rem 0;
+        margin-top: 4rem;
+      }
+      
+      .footer-title {
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+      }
+      
+      .footer-links {
+        list-style: none;
+        padding: 0;
+      }
+      
+      .footer-links li {
+        margin-bottom: 0.8rem;
+      }
+      
+      .footer-links a {
+        color: var(--gray-color);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+      
+      .footer-links a:hover {
+        color: white;
+      }
+      
+      .social-icons a {
+        color: white;
+        background: rgba(255, 255, 255, 0.1);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 0.8rem;
+        transition: var(--transition);
+      }
+      
+      .social-icons a:hover {
+        background: var(--primary-color);
+      }
+      
+      .copyright {
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding-top: 1.5rem;
+        margin-top: 2rem;
+        color: var(--gray-color);
+        font-size: 0.9rem;
+      }
+      
+      /* Responsive Adjustments */
+      @media (max-width: 768px) {
+        .hero-title {
+          font-size: 2rem;
+        }
+        
+        .hero-subtitle {
+          font-size: 1rem;
+        }
+        
+        .product-grid {
+          grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+      <div class="container">
+        <a class="navbar-brand" href="/">
+          <i class="bi bi-box-seam me-2"></i>Nexus
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="bi bi-house me-1"></i>Home
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/products/">
+                <i class="bi bi-grid me-1"></i>Shop
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/login/">
+                <i class="bi bi-person me-1"></i>Login
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/register/">
+                <i class="bi bi-person-plus me-1"></i>Register
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/cart/">
+                <i class="bi bi-cart3 me-1"></i>Cart
+                <span id="cartCount" class="badge bg-primary ms-1">0</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="container hero-content">
+        <h1 class="hero-title">Discover Premium Products</h1>
+        <p class="hero-subtitle">
+          Shop the latest collection of high-quality products at unbeatable prices. 
+          Free shipping on orders over $50.
+        </p>
+        <div class="search-box position-relative">
+          <input
+            type="text"
+            id="searchInput"
+            class="form-control search-input"
+            placeholder="Search for products..."
+          />
+          <button class="search-btn">
+            <i class="bi bi-search"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-container">
+      <div class="container">
+        <div class="category-filter" id="categoryFilter">
+          <h5 class="section-title">Shop by Category</h5>
+          <div id="categoryButtons" class="d-flex flex-wrap"></div>
+        </div>
+
+        <div id="loadingProducts" class="text-center py-5" style="display: none">
+          <div class="loading mx-auto"></div>
+          <p class="mt-3">Loading products...</p>
+        </div>
+
+        <div class="product-grid" id="product-list"></div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="row">
+            <div class="col-md-4 mb-4 mb-md-0">
+                <h5 class="footer-title">About Nexus</h5>
+                <p>Premium e-commerce platform offering the best products with fast delivery and excellent customer service.</p>
+                <div class="social-icons mt-3">
+                    <a href="#"><i class="bi bi-facebook"></i></a>
+                    <a href="#"><i class="bi bi-twitter"></i></a>
+                    <a href="#"><i class="bi bi-instagram"></i></a>
+                    <a href="#"><i class="bi bi-linkedin"></i></a>
+                </div>
+            </div>
+            <div class="col-md-2 mb-4 mb-md-0">
+                <h5 class="footer-title">Quick Links</h5>
+                <ul class="footer-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/products/">Shop</a></li>
+                    <li><a href="/about/">About Us</a></li>
+                    <li><a href="/contact/">Contact</a></li>
+                </ul>
+            </div>
+            <div class="col-md-2 mb-4 mb-md-0">
+                <h5 class="footer-title">Customer Service</h5>
+                <ul class="footer-links">
+                    <li><a href="/faq/">FAQ</a></li>
+                    <li><a href="/shipping/">Shipping</a></li>
+                    <li><a href="/returns/">Returns</a></li>
+                    <li><a href="/privacy/">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h5 class="footer-title">Newsletter</h5>
+                <p>Subscribe to get updates on new products and special offers.</p>
+                <div class="input-group mb-3">
+                    <input type="email" class="form-control" placeholder="Your email">
+                    <button class="btn btn-primary" type="button">Subscribe</button>
+                </div>
+            </div>
+        </div>
+        <div class="text-center copyright">
+            &copy; 2023 Nexus. All rights reserved.
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      let allProducts = [];
+      let categories = new Set();
+
+      async function loadProducts() {
+        const loading = document.getElementById("loadingProducts");
+        loading.style.display = "block";
+
+        try {
+          // Simulate API call with mock data
+          await new Promise(resolve => setTimeout(resolve, 1000));
+          
+          // Mock product data
+          const mockProducts = [
+            {
+              id: 1,
+              name: "Wireless Bluetooth Headphones",
+              description: "Premium noise-cancelling headphones with 30-hour battery life",
+              price: 129.99,
+              image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&auto=format&fit=crop&q=60",
+              category: { name: "Electronics" }
+            },
+            {
+              id: 2,
+              name: "Smart Fitness Watch",
+              description: "Track your heart rate, steps, and workouts with this advanced smartwatch",
+              price: 89.99,
+              image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&auto=format&fit=crop&q=60",
+              category: { name: "Electronics" }
+            },
+            {
+              id: 3,
+              name: "Organic Cotton T-Shirt",
+              description: "Comfortable and eco-friendly t-shirt made from 100% organic cotton",
+              price: 24.99,
+              image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500&auto=format&fit=crop&q=60",
+              category: { name: "Clothing" }
+            },
+            {
+              id: 4,
+              name: "Stainless Steel Water Bottle",
+              description: "Keep your drinks hot or cold for hours with this durable bottle",
+              price: 19.99,
+              image: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=500&auto=format&fit=crop&q=60",
+              category: { name: "Home" }
+            },
+            {
+              id: 5,
+              name: "Leather Wallet",
+              description: "Handcrafted genuine leather wallet with multiple card slots",
+              price: 45.00,
+              image: "https://images.unsplash.com/photo-1591561954555-607968c989ab?w=500&auto=format&fit=crop&q=60",
+              category: { name: "Accessories" }
+            },
+            {
+              id: 6,
+              name: "Wireless Charging Pad",
+              description: "Fast charging pad compatible with all Qi-enabled devices",
+              price: 29.99,
+              image: "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=500&auto=format&fit=crop&q=60",
+              category: { name: "Electronics" }
+            }
+          ];
+          
+          allProducts = mockProducts;
+
+          // Extract unique categories
+          mockProducts.forEach((product) => {
+            if (product.category?.name) {
+              categories.add(product.category.name);
+            }
+          });
+
+          // Create category filters
+          const categoryButtons = Array.from(categories)
+            .map(
+              (category) => `
+            <button class="filter-btn" onclick="filterProducts('${category}')">${category}</button>
+          `
+            )
+            .join("");
+          document.getElementById("categoryButtons").innerHTML = `
+            <button class="filter-btn active" onclick="filterProducts('all')">All</button>
+            ${categoryButtons}
+          `;
+
+          displayProducts(mockProducts);
+        } catch (error) {
+          document.getElementById("product-list").innerHTML = `
+            <div class="alert alert-danger w-100">
+                <i class="bi bi-exclamation-triangle me-2"></i>Failed to load products. Please try again later.
+            </div>`;
+        } finally {
+          loading.style.display = "none";
+        }
+      }
+
+      function displayProducts(products) {
+        const productList = document.getElementById("product-list");
+        if (products.length === 0) {
+          productList.innerHTML = `
+            <div class="col-12 text-center py-5">
+              <i class="bi bi-search" style="font-size: 3rem; color: var(--gray-color);"></i>
+              <h4 class="mt-3">No products found</h4>
+              <p class="text-muted">Try adjusting your search or filter</p>
+            </div>`;
+          return;
+        }
+
+        productList.innerHTML = products
+          .map(
+            (product) => `
+          <div class="product-card">
+            <div class="product-img-container">
+              <img src="${
+                product.image || "https://via.placeholder.com/300x200?text=Product+Image"
+              }" class="product-img" alt="${product.name}">
+              ${product.category ? `<span class="product-badge">${product.category.name}</span>` : ''}
+            </div>
+            <div class="product-body">
+              <h5 class="product-title">${product.name}</h5>
+              <p class="product-description">${product.description}</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="product-price">$${product.price.toFixed(2)}</span>
+                <div class="product-actions">
+                  <a href="/product/?id=${product.id}" class="btn-view">
+                    <i class="bi bi-eye me-1"></i>View
+                  </a>
+                  <button onclick="addToCart(${product.id})" class="btn-add">
+                    <i class="bi bi-cart-plus me-1"></i>Add
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `
+          )
+          .join("");
+      }
+
+      function filterProducts(category) {
+        // Update active button
+        document.querySelectorAll(".filter-btn").forEach((btn) => {
+          btn.classList.remove("active");
+          if (
+            btn.textContent === category ||
+            (category === "all" && btn.textContent === "All")
+          ) {
+            btn.classList.add("active");
+          }
+        });
+
+        const filtered =
+          category === "all"
+            ? allProducts
+            : allProducts.filter((p) => p.category?.name === category);
+        displayProducts(filtered);
+      }
+
+      function addToCart(productId) {
+        const token = localStorage.getItem("access");
+        if (!token) {
+          showToast('Please login to add items to your cart', 'warning');
+          setTimeout(() => {
+            window.location.href = "/login/";
+          }, 2000);
+          return;
+        }
+        
+        // Simulate API call
+        setTimeout(() => {
+          showToast('Product added to cart successfully!', 'success');
+          updateCartCount();
+        }, 500);
+      }
+      
+      function showToast(message, type) {
+        const toastContainer = document.createElement('div');
+        toastContainer.className = 'toast-container';
+        
+        const toast = document.createElement('div');
+        toast.className = `custom-toast toast show align-items-center border-0`;
+        toast.role = 'alert';
+        toast.setAttribute('aria-live', 'assertive');
+        toast.setAttribute('aria-atomic', 'true');
+        
+        const toastBody = document.createElement('div');
+        toastBody.className = 'd-flex';
+        
+        const icon = document.createElement('div');
+        icon.className = 'toast-icon';
+        icon.innerHTML = type === 'success' 
+          ? '<i class="bi bi-check-circle-fill text-success me-2"></i>' 
+          : '<i class="bi bi-exclamation-triangle-fill text-warning me-2"></i>';
+        
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'toast-body';
+        messageDiv.textContent = message;
+        
+        const closeBtn = document.createElement('button');
+        closeBtn.type = 'button';
+        closeBtn.className = 'btn-close me-2 m-auto';
+        closeBtn.setAttribute('data-bs-dismiss', 'toast');
+        closeBtn.setAttribute('aria-label', 'Close');
+        closeBtn.onclick = () => toastContainer.remove();
+        
+        toastBody.appendChild(icon);
+        toastBody.appendChild(messageDiv);
+        toastBody.appendChild(closeBtn);
+        toast.appendChild(toastBody);
+        toastContainer.appendChild(toast);
+        document.body.appendChild(toastContainer);
+        
+        setTimeout(() => {
+          toastContainer.remove();
+        }, 3000);
+      }
+      
+      function updateCartCount() {
+        const cartCount = document.getElementById('cartCount');
+        if (cartCount) {
+          const currentCount = parseInt(cartCount.textContent) || 0;
+          cartCount.textContent = currentCount + 1;
+        }
+      }
+
+      document.getElementById("searchInput").addEventListener("input", (e) => {
+        const searchTerm = e.target.value.toLowerCase();
+        const filtered = allProducts.filter(
+          (p) =>
+            p.name.toLowerCase().includes(searchTerm) ||
+            p.description.toLowerCase().includes(searchTerm) ||
+            (p.category?.name && p.category.name.toLowerCase().includes(searchTerm))
+        );
+        displayProducts(filtered);
+      });
+
+      document.addEventListener('DOMContentLoaded', function() {
+        loadProducts();
+      });
+    </script>
+  </body>
+</html>

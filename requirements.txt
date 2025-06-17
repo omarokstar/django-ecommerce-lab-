@@ -1,0 +1,4 @@
+djangorestframework
+Django
+PyJWT
+djangorestframework-simplejwt
