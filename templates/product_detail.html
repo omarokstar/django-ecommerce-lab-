@@ -12,65 +12,238 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css"
     />
-    <link rel="stylesheet" href="/static/css/style.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
     <style>
-      .product-detail-card {
-        border: none;
-        border-radius: 24px;
-        overflow: hidden;
-        box-shadow: var(--card-shadow);
+      :root {
+        --primary-color: #4f46e5;
+        --primary-hover: #4338ca;
+        --secondary-color: #f9fafb;
+        --text-primary: #111827;
+        --text-secondary: #6b7280;
+        --border-radius: 12px;
+        --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+        --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
       }
+      
+      body {
+        font-family: 'Inter', sans-serif;
+        color: var(--text-primary);
+        background-color: #f9fafb;
+      }
+      
+      .navbar {
+        background-color: white;
+        box-shadow: var(--shadow-sm);
+      }
+      
+      .navbar-brand {
+        font-weight: 600;
+        color: var(--primary-color);
+      }
+      
+      .product-container {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+      }
+      
+      .product-card {
+        background: white;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow-md);
+        overflow: hidden;
+      }
+      
       .product-gallery {
         position: relative;
         background: #f8f9fa;
-        border-radius: 24px;
-        padding: 1rem;
+        padding: 2rem;
       }
+      
       .product-img {
         width: 100%;
         height: 400px;
         object-fit: contain;
-        border-radius: 16px;
-      }
-      .product-info {
-        padding: 2rem;
-      }
-      .price-tag {
-        font-size: 2rem;
-        color: var(--primary-color);
-        font-weight: 600;
-      }
-      .quantity-input {
-        max-width: 100px;
-        text-align: center;
         border-radius: 8px;
-        margin: 0 10px;
+        transition: transform 0.3s ease;
       }
+      
+      .product-img:hover {
+        transform: scale(1.03);
+      }
+      
+      .product-info {
+        padding: 2.5rem;
+      }
+      
+      .product-title {
+        font-size: 1.75rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+      }
+      
+      .product-category {
+        display: inline-block;
+        background: #e0e7ff;
+        color: var(--primary-color);
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        font-size: 0.875rem;
+        font-weight: 500;
+        margin-bottom: 1rem;
+      }
+      
+      .product-description {
+        color: var(--text-secondary);
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+      }
+      
+      .price-container {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1.5rem;
+      }
+      
+      .current-price {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: var(--primary-color);
+      }
+      
       .stock-badge {
+        display: inline-flex;
+        align-items: center;
         padding: 0.5rem 1rem;
-        border-radius: 20px;
-        font-size: 0.9rem;
-        background: #e9ecef;
+        border-radius: 9999px;
+        font-size: 0.875rem;
+        font-weight: 500;
       }
-      .stock-badge.in-stock {
-        background: #d4edda;
-        color: #155724;
+      
+      .in-stock {
+        background: #dcfce7;
+        color: #166534;
       }
-      .stock-badge.low-stock {
-        background: #fff3cd;
-        color: #856404;
+      
+      .low-stock {
+        background: #fef9c3;
+        color: #854d0e;
       }
-      .related-products {
-        margin-top: 3rem;
+      
+      .out-of-stock {
+        background: #fee2e2;
+        color: #991b1b;
+      }
+      
+      .quantity-selector {
+        display: flex;
+        align-items: center;
+        margin: 2rem 0;
+      }
+      
+      .quantity-btn {
+        width: 40px;
+        height: 40px;
+        border: 1px solid #e5e7eb;
+        background: white;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      
+      .quantity-btn:hover {
+        background: #f3f4f6;
+      }
+      
+      .quantity-input {
+        width: 60px;
+        height: 40px;
+        text-align: center;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        margin: 0 0.5rem;
+        font-weight: 500;
+      }
+      
+      .add-to-cart {
+        width: 100%;
+        padding: 1rem;
+        border-radius: var(--border-radius);
+        background: var(--primary-color);
+        color: white;
+        font-weight: 600;
+        border: none;
+        transition: all 0.2s;
+      }
+      
+      .add-to-cart:hover {
+        background: var(--primary-hover);
+      }
+      
+      .add-to-cart:disabled {
+        background: #9ca3af;
+        cursor: not-allowed;
+      }
+      
+      .back-btn {
+        display: inline-flex;
+        align-items: center;
+        color: var(--primary-color);
+        font-weight: 500;
+        margin-bottom: 1.5rem;
+        text-decoration: none;
+      }
+      
+      .back-btn:hover {
+        color: var(--primary-hover);
+      }
+      
+      .loading {
+        width: 50px;
+        height: 50px;
+        border: 4px solid #e5e7eb;
+        border-top-color: var(--primary-color);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+      
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+      
+      .toast-container {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+      }
+      
+      .toast {
+        border-radius: var(--border-radius);
+        overflow: hidden;
+        box-shadow: var(--shadow-md);
+      }
+      
+      @media (max-width: 992px) {
+        .product-img {
+          height: 300px;
+        }
+        
+        .product-info {
+          padding: 1.5rem;
+        }
       }
     </style>
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-dark">
+    <nav class="navbar navbar-expand-lg sticky-top">
       <div class="container">
-        <a class="navbar-brand" href="/"
-          ><i class="bi bi-shop me-2"></i>E-Commerce</a
-        >
+        <a class="navbar-brand" href="/">
+          <i class="bi bi-shop me-2"></i>ModernShop
+        </a>
         <button
           class="navbar-toggler"
           type="button"
@@ -82,31 +255,32 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-              <a class="nav-link" href="/login/"
-                ><i class="bi bi-person me-1"></i>Login</a
-              >
+              <a class="nav-link" href="/login/">
+                <i class="bi bi-person me-1"></i>Login
+              </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/register/"
-                ><i class="bi bi-person-plus me-1"></i>Register</a
-              >
+              <a class="nav-link" href="/register/">
+                <i class="bi bi-person-plus me-1"></i>Register
+              </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/cart/"
-                ><i class="bi bi-cart me-1"></i>Cart</a
-              >
+              <a class="nav-link position-relative" href="/cart/">
+                <i class="bi bi-cart me-1"></i>Cart
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">
+                  0
+                </span>
+              </a>
             </li>
           </ul>
         </div>
       </div>
     </nav>
 
-    <div class="container mt-5">
-      <div class="mb-4">
-        <a href="/" class="btn btn-outline-primary">
-          <i class="bi bi-arrow-left me-2"></i>Back to Products
-        </a>
-      </div>
+    <div class="product-container">
+      <a href="/" class="back-btn">
+        <i class="bi bi-arrow-left me-2"></i>Back to Products
+      </a>
 
       <div id="product-detail"></div>
 
@@ -127,7 +301,7 @@
         if (!productId) {
           document.getElementById("product-detail").innerHTML = `
             <div class="alert alert-danger">
-                <i class="bi bi-exclamation-triangle me-2"></i>No product selected
+              <i class="bi bi-exclamation-triangle me-2"></i>No product selected
             </div>`;
           document.getElementById("loading").style.display = "none";
           return;
@@ -138,84 +312,111 @@
           const product = await res.json();
 
           document.getElementById("product-detail").innerHTML = `
-            <div class="product-detail-card">
-                <div class="row g-0">
-                    <div class="col-lg-6">
-                        <div class="product-gallery">
-                            <img src="${
-                              product.image ||
-                              "https://via.placeholder.com/600x400"
-                            }" 
-                                 class="product-img" alt="${product.name}">
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="product-info">
-                            <div class="mb-4">
-                                ${
-                                  product.category
-                                    ? `<span class="badge bg-primary mb-2">${product.category.name}</span>`
-                                    : ""
-                                }
-                                <h1 class="mb-3">${product.name}</h1>
-                                <p class="text-muted">${product.description}</p>
-                            </div>
-                            
-                            <div class="mb-4">
-                                <span class="price-tag mb-3">$${
-                                  product.price
-                                }</span>
-                                <div class="mt-2">
-                                    <span class="stock-badge ${
-                                      product.stock > 5
-                                        ? "in-stock"
-                                        : "low-stock"
-                                    }">
-                                        <i class="bi bi-box me-1"></i>
-                                        ${
-                                          product.stock > 0
-                                            ? `${product.stock} in stock`
-                                            : "Out of stock"
-                                        }
-                                    </span>
-                                </div>
-                            </div>
-                            
-                            <form onsubmit="event.preventDefault(); addToCart(${
-                              product.id
-                            })" class="mb-4">
-                                <div class="d-flex align-items-center mb-3">
-                                    <label class="me-3">Quantity:</label>
-                                    <input type="number" id="quantity" class="form-control quantity-input" 
-                                           value="1" min="1" max="${
-                                             product.stock
-                                           }">
-                                </div>
-                                <button type="submit" class="btn btn-primary btn-lg w-100 ${
-                                  product.stock === 0 ? "disabled" : ""
-                                }">
-                                    <i class="bi bi-cart-plus me-2"></i>Add to Cart
-                                </button>
-                            </form>
-                        </div>
-                    </div>
+            <div class="product-card">
+              <div class="row g-0">
+                <div class="col-lg-6">
+                  <div class="product-gallery">
+                    <img src="${
+                      product.image ||
+                      "https://via.placeholder.com/600x400?text=Product+Image"
+                    }" 
+                         class="product-img" alt="${product.name}">
+                  </div>
                 </div>
+                <div class="col-lg-6">
+                  <div class="product-info">
+                    ${product.category ? `
+                      <span class="product-category">
+                        ${product.category.name}
+                      </span>
+                    ` : ""}
+                    
+                    <h1 class="product-title">${product.name}</h1>
+                    <p class="product-description">${product.description || "No description available."}</p>
+                    
+                    <div class="price-container">
+                      <span class="current-price">$${product.price}</span>
+                    </div>
+                    
+                    <div class="d-flex align-items-center mb-4">
+                      <span class="stock-badge ${
+                        product.stock > 5 
+                          ? "in-stock" 
+                          : product.stock > 0 
+                            ? "low-stock" 
+                            : "out-of-stock"
+                      }">
+                        <i class="bi bi-${
+                          product.stock > 5 
+                            ? "check-circle" 
+                            : product.stock > 0 
+                              ? "exclamation-triangle" 
+                              : "x-circle"
+                        } me-1"></i>
+                        ${
+                          product.stock > 0 
+                            ? `${product.stock} in stock` 
+                            : "Out of stock"
+                        }
+                      </span>
+                    </div>
+                    
+                    <form onsubmit="event.preventDefault(); addToCart(${product.id})">
+                      <div class="quantity-selector">
+                        <button type="button" class="quantity-btn" onclick="adjustQuantity(-1)">
+                          <i class="bi bi-dash"></i>
+                        </button>
+                        <input 
+                          type="number" 
+                          id="quantity" 
+                          class="quantity-input" 
+                          value="1" 
+                          min="1" 
+                          max="${product.stock}"
+                        >
+                        <button type="button" class="quantity-btn" onclick="adjustQuantity(1)">
+                          <i class="bi bi-plus"></i>
+                        </button>
+                      </div>
+                      
+                      <button 
+                        type="submit" 
+                        class="add-to-cart ${product.stock === 0 ? "disabled" : ""}"
+                        ${product.stock === 0 ? "disabled" : ""}
+                      >
+                        <i class="bi bi-cart-plus me-2"></i>Add to Cart
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              </div>
             </div>`;
         } catch (error) {
           document.getElementById("product-detail").innerHTML = `
             <div class="alert alert-danger">
-                <i class="bi bi-exclamation-triangle me-2"></i>Failed to load product details
+              <i class="bi bi-exclamation-triangle me-2"></i>Failed to load product details
             </div>`;
         } finally {
           document.getElementById("loading").style.display = "none";
         }
       }
 
+      function adjustQuantity(change) {
+        const input = document.getElementById("quantity");
+        let value = parseInt(input.value) || 0;
+        const max = parseInt(input.max) || Infinity;
+        const newValue = value + change;
+        
+        if (newValue >= 1 && newValue <= max) {
+          input.value = newValue;
+        }
+      }
+
       async function addToCart(productId) {
         const token = localStorage.getItem("access");
         if (!token) {
-          alert("Please login to add items to your cart.");
-          window.location.href = "/login/";
+          showToast("Please login to add items to your cart", "warning");
+          setTimeout(() => window.location.href = "/login/", 1500);
           return;
         }
 
@@ -232,25 +433,45 @@
 
           if (!res.ok) throw new Error("Failed to add to cart");
 
-          const toast = document.createElement("div");
-          toast.className = "position-fixed bottom-0 end-0 p-3";
-          toast.style.zIndex = "11";
-          toast.innerHTML = `
-            <div class="toast show" role="alert">
-                <div class="toast-header">
-                    <i class="bi bi-cart-check me-2"></i>
-                    <strong class="me-auto">Success</strong>
-                    <button type="button" class="btn-close" onclick="this.closest('.toast').remove()"></button>
-                </div>
-                <div class="toast-body">
-                    Product added to cart!
-                </div>
-            </div>
-        `;
-          document.body.appendChild(toast);
-          setTimeout(() => toast.remove(), 3000);
+          showToast("Product added to cart!", "success");
+          updateCartCount();
         } catch (error) {
-          alert(error.message);
+          showToast(error.message, "danger");
+        }
+      }
+
+      function showToast(message, type = "success") {
+        const toastContainer = document.createElement("div");
+        toastContainer.className = "toast-container";
+        
+        const toast = document.createElement("div");
+        toast.className = `toast show bg-${type} text-white`;
+        toast.innerHTML = `
+          <div class="d-flex align-items-center p-3">
+            <i class="bi bi-${
+              type === "success" ? "check-circle" : 
+              type === "warning" ? "exclamation-triangle" : "x-circle"
+            } me-2 fs-5"></i>
+            <div>${message}</div>
+            <button type="button" class="btn-close btn-close-white ms-auto" onclick="this.closest('.toast-container').remove()"></button>
+          </div>
+        `;
+        
+        toastContainer.appendChild(toast);
+        document.body.appendChild(toastContainer);
+        
+        setTimeout(() => {
+          toastContainer.remove();
+        }, 3000);
+      }
+
+      function updateCartCount() {
+        // You would implement this to update the cart count in the navbar
+        // For now, we'll just increment the existing number
+        const cartBadge = document.querySelector(".navbar .badge");
+        if (cartBadge) {
+          const currentCount = parseInt(cartBadge.textContent) || 0;
+          cartBadge.textContent = currentCount + 1;
         }
       }
 
